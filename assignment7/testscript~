@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cat |
+tr "a\040" "z\012" |
+sort |
+tr "z\012" "a\040"

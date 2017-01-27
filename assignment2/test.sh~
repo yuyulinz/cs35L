@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cmp cmp1 cmp2
+
+if [ $? -eq 1 ]
+then
+   echo "not same"
+else
+    echo "same"
+fi
+

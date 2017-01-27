@@ -1,0 +1,105 @@
+********************************************************************************
+Lab 7
+********************************************************************************
+
+First I made sure I am in C locale
+> $ export LC_ALL=C
+> $ locale
+This is best to make sure all the characters are single bytes.
+
+
+
+*********************
+Wriite tr2b.c
+*********************
+
+Created a file called tr2b.c
+Began writing the implementation fo tr2b.c
+Started with a check to see if number of arguments are correct, using argc
+Then checked if arguments have same number of characters
+Then checked if arguments have duplicates
+
+Wrote a function called translate that takes in from and to and a character.
+If the character is found in from, return the coresponding character from to.
+Else return the original character.
+
+Used a while loop and getchar and putchar to take one character from stdin and
+then run it through translate. Then output to stdout using putchar.
+
+compiled this using the following command.
+> $ gcc -o tr2b tr2b.c
+tested this with various commands. Works!
+
+
+
+*********************
+Write tr2u.c
+*********************
+
+Made a copy tr2b.c into tr2u.c. Then changed the while loop to use read and
+write instead of getchar and putchar.
+
+compiled using this
+> $ gcc -o tr2u tr2u.c
+tested with similar commands. Works!
+
+
+*********************
+Compare using strace
+*********************
+
+The goal is to compare the number of system calls between tr2b and tr2u
+(a) when copying to another file and (b) when copying to terminal.
+
+First I created a file with 5 million bytes
+> $ head --bytes=5000000 /dev/urandom > 5mil.txt
+
+****
+(a)
+****
+I used strace to count the number of sys calls when copying to another file
+outputb.txt and outputu.txt are the output files for strace
+> $ strace -o outputb.txt -c ./tr2b 'a' 'b' < 5mil.txt > copyb.txt
+> $ strace -o outputu.txt -c ./tr2u 'a' 'b' < 5mil.txt > copyu.txt
+
+tr2b had 181 system calls
+tr2u had 10000024 system calls
+
+tr2u was took an extremely long time. It was making a system call for every
+character which would result in millions of calls. It is clear that comparing
+the system calls, the unbeffered version was much much faster.
+
+****
+(b)
+****
+I used strace to count the number of sys calls when copuing to terminal.
+outputb.txt and outputu.txt are the output files for strace
+> $ strace -o outputb.txt -c ./tr2b 'a' 'b' < 5mil.txt
+> $ strace -o outputu.txt -c ./tr2u 'a' 'a' < 5mil.txt
+
+There were 20030 system calls using tr2b
+There were 10000024 sytem calls using tr2u
+
+tr2u took very long to execute
+tr2u had about 5 million write system calls and about 5 million read calls.
+It is clear that using the buffered system is much faster and more efficient
+
+
+*********************
+Compare using time
+*********************
+
+I used time to compare how much faster one program is
+
+> $ time cat 5mil.txt | ./tr2b 'a' 'b'
+real 0m0.915s
+user 0m0.213s
+sys  0m0.108s
+
+> $ time cat 5mil.txt | ./tr2u 'a' 'b'
+real 0m6.450s
+user 0m0.336s
+sys  0m6.092s
+
+In all three categories, especially the system calls, the unbuffered version
+tr2u is much slower than the buffered version tr2b.

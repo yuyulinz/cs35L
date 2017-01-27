@@ -1,0 +1,22 @@
+********************************************************************************
+LAB 3
+********************************************************************************
+
+SETUP
+-Downloaded coreutils-7.6.tar.gz by using wget
+-created coreutilsinstall directory in home directory
+-untarred and unzipped the file using tar -xzvf coreutils-7.6.tar.gz
+-configured into coreutilsintall directory by using
+ ./configure --prefix=/u/eng/ugrad/yulin/coreutilsinstall
+-ran make and make install
+-reproduced problem by navigating to ~/coreutilsinstall/bin/ and then running
+ ./ls -l
+ the dates were in YYYY-MM-DD format instead of tradittional unix date
+
+PATCH
+-A patch fizes problems in code, a diff file contains the changes and we use the
+ patch command with the diff file to add changes.
+-used wget to get the html for the patch
+-editted using emacs the file to only have the patch
+-renamed the file to patch_file
+-used command patch -p1 < patch_file to apply the patch

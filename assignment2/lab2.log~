@@ -1,0 +1,138 @@
+--------------------------------------------------------------------------------
+Assignment 2
+--------------------------------------------------------------------------------
+
+Lab: Spell-checking Hawaiian
+********************************************************************************
+
+-Changed locale to standard C
+$ export LC_ALL='C'
+
+-Created a file of a sorted list of English words
+$ sort /usr/share/dict/words words
+
+-Took a text file containing the HTML of this week;s web page
+$ wget web.cs.ucla.edu/classes/winter16/cs35L/assign/assign2.html
+$ cat assign2.html > assign2.txt
+
+
+
+--Ran the 6 commands on this text file and described what each command output--
+
+$ tr -c 'A-Za-z' '[\n*]' < assign2.txt
+-Replaces all characters that's not an alpha character with a new line
+
+$ tr -cs 'A-Za-z' '[\n*]' < assign2.txt
+-Replaces all characters that's not an alpha character with a new line and then
+ squeeses the results. For example adding the -s here replaces all repetitions
+ of characters that are not alpha characters with one newline.
+
+$ tr -cs 'A-Za-z' '[\n*]' < assign2.txt | sort
+-Same as above but sorts the words using C locale or ASCII sorting
+
+$ tr -cs 'A-Za-z' '[\n*]' assign2.txt | sort -u
+-Same as above but removes duplicates
+
+$ tr -cs 'A-Za-z' '[\n*]' assign2.txt | sort -u | comm - words
+-Same as above but the list of words is compared to the library of words in the
+ words file. It then lists three columns, the first column contains words that
+ are unique to the list created above, the second column lists words that are
+ unique to the words file, and the third column lists words that are in both
+ files.
+
+$ tr -cs 'A-Za-z' '[\n*]' assign2.txt | sort -u | comm -23 - words
+-Same as above but now it hides the 2nd and 3rd column. It will only output
+ the words that are unique to the assign2.txt tile.
+
+
+$ wget mauimapp.com/moolelo/hwnwdseng.htm
+I took a copy of the website for hawaiian words
+
+
+To create a hawaiian dictionary, I wrote a shell script that reads a HTML file
+from standard input and outputs a list of only hawaiian words in order.
+
+$ emacs buildwords.sh
+-create a shell script file
+
+Inside this file I wrote the following script
+
+#! /bin/sh
+grep '<td>.*</td>' < $1 |
+    sed 's/<[^>]*>//g' |
+    tr -d '[:blank:]' |
+    sed '/^$/d' |
+    sed '1~2d' |
+    tr '[:upper:]' '[:lower:]' |
+    sed "s/\`/'/g" |
+    sed 's/,/\n/g' |
+    sed "/[^pk'mnwlhaeiou]/d" |
+    sort -u
+
+
+#! /bin/sh
+-This states which shell script to use
+
+grep '<td>.*</td>' < $1 |
+-Since all of the words are found between <td> and </td>, this line will grab
+ all of the characters that start with <td> and end with </td> inclusively.
+ The period can represent any character and the * means any number of
+ repetitions of the previous character.
+ 
+sed 's/<[^>]*>//g' |
+-This line uses the sed command which when used with the s character replaces
+ parts of text with other texts. At first I tried this with no g but this
+ would only delete the first occurance in every line. The g at the end stands
+ for global which will search for multiple instances in one line. Adding the
+ g solved this issue. I also first tried <.*> as the regular expression but
+ found that this would also include the > character. Using the [^>] solved
+ this issue since it will search for any character that is not >. Since the
+ replacement test is empty here, the effect is deleting everything that
+ matches the first regular expression. The regular expression matches
+ everything between <> brackets including the brackets. Ultimately this
+ deletes all of the HTML tags. The | at the end pipelines the output to the
+ next script.
+ 
+tr -d '[:blank:]' |
+-This line uses tr which stands for translate. when used with the -d option
+ and the one argument [:blank:], it will delete all of the spaces and tabs in
+ the document.
+
+sed '/^$/d' |
+-This use of sed with the syntax '/regexpression/d' searches the text for the
+ regular expression and if it finds it, it will delete the line of that
+ expression. The ^& are anchors and because they are used with nothing in
+ between, it represents a line with no text. Effectively, this will delete all
+ of the empty lines.
+ 
+sed '1~2d' |
+-This use of sed will delete every other line starting with the first. The
+ syntax 1~2d means delete the first line, skip down 2 lines and delete that one.
+ It continues to do this for the whole document until the end. This will delete
+ all of the english words leaving only the hawaiian words.
+ 
+tr '[:upper:]' '[:lower:]' |
+-This use of translate replaces all of the upper case letters with lower case
+ letters.
+ 
+sed "s/\`/'/g" |
+-This sed statement replaces all of the grave accents with apostrophes. At
+ first I tried to use single quotes which did not work because the single
+ quote in the expression caused an error. Using double quotes allowed the use
+ of the literal meaning of a single quote but a backslash was needed for the
+ grave accent. This again uses the s and g settings where we substitute text
+ on every match and not just once per line.
+
+sed 's/,/\n/g' |
+-This separates words that are located on the same line by substituting all of
+ the commas with a newline.
+ 
+sed "/[^pk'mnwlhaeiou]/d" |
+-Now that every line contains a word we must filter the words that are not
+ hawaiian words. This command will delete all of the lines that contains the
+ letters in the bracket. It will search each line until it hit one of the
+ characters on in the bracket.
+ 
+sort -u
+-Lastly, this will sort the words and delete the duplicates.
+

@@ -1,0 +1,59 @@
+*****************
+Time Comparisons
+*****************
+
+Comparing using test, I compared sfrob and sfrobu with a file that is 10 inputs
+long and a file that is 1000000 inputs long.
+
+
+
+**********
+10 Inputs
+**********
+
+> $ time ./sfrob < testfile10.txt
+real    0m0.002s
+user    0m0.000s
+sys     0m0.000s
+
+> $ time ./sfrobu < testfile10.txt
+real    0m0.003s
+user    0m0.000s
+sys     0m0.001s
+
+
+
+***************
+1000000 Inputs
+***************
+
+> $ time ./sfrob < testfile1000000.txt
+real    0m5.172s
+user    0m1.217s
+sys     0m0.068s
+
+> $ time ./sfrobu < testfile1000000.txt
+real    0m12.766s
+user    0m1.454s
+sys     0m11.299s
+
+
+
+*************************************
+Number of Comparisons vs Input Lines
+*************************************
+
+I compared the number of comparisons sfrobu did vs the number of input lines
+
+# of Input     Comparisons
+
+10             20
+100            523
+1000	       8320
+10000	       114996
+100000	       1468576
+1000000	       17795664
+
+These results show that the number of comparisons follow the O(nlogn) complexity
+of qsort. This is expected.
+

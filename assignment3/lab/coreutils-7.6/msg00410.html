@@ -1,0 +1,292 @@
+<!-- MHonArc v2.6.16 -->
+<!--X-Subject: Re: [PATCH]: ls: do not show long iso time format for en_* locales -->
+<!--X-From-R13: Báqenvt Penql <BNqenvtPenql.pbz> -->
+<!--X-Date: Mon, 28 Sep 2009 16:39:42 &#45;0400 -->
+<!--X-Message-Id: 4AC11E77.7000703@draigBrady.com -->
+<!--X-Content-Type: multipart/mixed -->
+<!--X-Reference: 1253885988.4440.8.camel@dhcp&#45;lab&#45;219.englab.brq.redhat.com -->
+<!--X-Reference: 87skeazqsi.fsf@cs.ucla.edu -->
+<!--X-Reference: 4ABD5241.7040906@draigBrady.com -->
+<!--X-Reference: 87r5ttiw2f.fsf@meyering.net -->
+<!--X-Reference: 4ABF1A83.9080403@draigBrady.com -->
+<!--X-Reference: 877hvkfta8.fsf@meyering.net -->
+<!--X-Reference: 4ABF6245.2000001@draigBrady.com -->
+<!--X-Reference: 4AC07DA1.8040301@draigBrady.com -->
+<!--X-Head-End-->
+<!doctype html public "-//W3C//DTD HTML//EN">
+<html>
+<head>
+<title>Re: [PATCH]: ls: do not show long iso time format for en_* locales</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<center>
+<table border=0 cellspacing=2 cellpadding=0 bgcolor="#000000">
+<tr><td><table border=0 bgcolor="#FFFFCC">
+<tr><td><big><b>bug-coreutils</b></big></td></tr></table></tr></table>
+<small><nobr>[<a href="../"
+>Top</a>][<a href="/archive/html">All Lists</a>]</small></nobr>
+<form method="get" action="/archive/cgi-bin/namazu.cgi">
+<input type="text" name="query" size="30">
+<input type="submit" name="submit" value="Search">
+<input type="hidden" name="idxname" value="bug-coreutils">
+<a href="/archive/cgi-bin/namazu.cgi?idxname=bug-coreutils">Advanced</a>
+</form>
+
+</center>
+<!--X-Body-Begin-->
+<!--X-User-Header-->
+<!--X-User-Header-End-->
+<!--X-TopPNI-->
+<hr>
+[<a href="msg00409.html">Date Prev</a>][<a href="msg00411.html">Date Next</a>][<a href="msg00405.html">Thread Prev</a>][<a href="msg00411.html">Thread Next</a>][<a
+href="index.html#00410">Date Index</a>][<a
+href="threads.html#00410">Thread Index</a>]
+
+<!--X-TopPNI-End-->
+<!--X-MsgBody-->
+<!--X-Subject-Header-Begin-->
+<h2>Re: [PATCH]: ls: do not show long iso time format for en_* locales</h2>
+<hr>
+<table border=0>
+<tbody>
+<tr>
+<td align="right" valign="top">
+<b>From</b>: </td>
+<td align="left">
+Pádraig Brady</td>
+</tr>
+<!--X-Subject-Header-End-->
+<!--X-Head-of-Message-->
+
+<tr>
+<td align="right" valign="top">
+<b>Subject</b>: </td>
+<td align="left">
+Re: [PATCH]: ls: do not show long iso time format for en_* locales</td>
+</tr>
+
+<tr>
+<td align="right" valign="top">
+<b>Date</b>: </td>
+<td align="left">
+Mon, 28 Sep 2009 21:37:11 +0100</td>
+</tr>
+
+<tr>
+<td align="right" valign="top">
+<b>User-agent</b>: </td>
+<td align="left">
+Thunderbird 2.0.0.6 (X11/20071008)</td>
+</tr>
+
+</tbody>
+</table>
+<!--X-Head-of-Message-End-->
+<!--X-Head-Body-Sep-Begin-->
+<hr>
+<!--X-Head-Body-Sep-End-->
+<!--X-Body-of-Message-->
+<pre>Pádraig Brady wrote:
+&gt;<i> Pádraig Brady wrote:</i>
+&gt;<i>&gt; Jim Meyering wrote:</i>
+&gt;<i>&gt;&gt; The only advantage is that my patch uses the existing framework,</i>
+&gt;<i>&gt;&gt; rather than adding special case code in ls.c proper.</i>
+&gt;<i>&gt;&gt; Whether that is worth the apparent complexity...</i>
+&gt;<i>&gt;&gt;</i>
+&gt;<i>&gt;&gt; If you prefer his patch and want to adjust it and</i>
+&gt;<i>&gt;&gt; handle the rest, I have no objection.</i>
+&gt;<i>&gt; Yes it's debatable.</i>
+&gt;<i>&gt; I'll take a closer look at both</i>
+&gt;<i>&gt; and send an updated one if I think</i>
+&gt;<i>&gt; the special case in ls.c more appropriate.</i>
+&gt;<i> </i>
+&gt;<i> Thinking more about this I'm wondering about special casing en_* at all.</i>
+&gt;<i> </i>
+&gt;<i> The result of this patch is that for most people the usual timestamp</i>
+&gt;<i> format changes from 1 (ISO) to 3 fields (POSIX).</i>
+
+ISO is 2 fields actually :P
+
+&gt;<i> </i>
+&gt;<i> So the first minor issue I have is that ISO has been the usual</i>
+&gt;<i> format for 4 years at least, so I suspect that this might trigger</i>
+&gt;<i> bugs in scripts parsing ls output. I do prefer the traditional</i>
+&gt;<i> POSIX specified format myself and I'm surprised that no one</i>
+&gt;<i> reported this until now. In summary I'm about 60:40 for making</i>
+&gt;<i> the change, and if we do I'll add appropriate text to NEWS.</i>
+&gt;<i> </i>
+&gt;<i> The other question I have is why do we assume ISO anyway when a</i>
+&gt;<i> format translation it not available? For example we've no translations</i>
+&gt;<i> for en_PH or tl_PH and so at the moment they'll get ISO format</i>
+&gt;<i> even though Tagalog month abbreviations are available:</i>
+&gt;<i> </i>
+&gt;<i> $ LANG=tl_PH locale abmon</i>
+&gt;<i> Ene;Peb;Mar;Abr;May;Hun;Hul;Ago;Sep;Okt;Nob;Dis</i>
+&gt;<i> </i>
+&gt;<i> Now if we do apply the special casing for en_* then you'll have</i>
+&gt;<i> different date formats for en_PH and tl_PH. Really the date</i>
+&gt;<i> format is associated with the country rather than the language.</i>
+&gt;<i> (Note I don't think we can determine whether abmon is specific</i>
+&gt;<i> to the locale or whether it's just the &quot;C&quot; default).</i>
+&gt;<i> </i>
+&gt;<i> So I think if we accept the first point above that we would change the</i>
+&gt;<i> default format to POSIX for most people I think we should just remove the</i>
+&gt;<i> code defaulting to ISO if a translation is not available ?</i>
+
+The full patch is attached.
+
+cheers,
+Pádraig.
+</pre><pre>&gt;<i>From 2829fa07edc1ef3f550521b53999dc53c89ff215 Mon Sep 17 00:00:00 2001</i>
+From: =?utf-8?q?P=C3=A1draig=20Brady?= &lt;address@hidden&gt;
+Date: Mon, 28 Sep 2009 17:32:15 +0100
+Subject: [PATCH] ls: use the POSIX date style when the locale does not specify 
+one
+
+Previously we defaulted to &quot;long-iso&quot; format in locales without
+specific format translations, like the en_* locales for example.
+This reverts part of commit 6837183d, 08-11-2005, &quot;ls ... acts like
+--time-style='posix-long-iso' if the locale settings are messed up&quot;
+* src/ls.c (decode_switches): Only use the ISO format when specified.
+* NEWS: Mention the change in behavior.
+Reported at <a  rel="nofollow" href="http://bugzilla.redhat.com/525134">http://bugzilla.redhat.com/525134</a>
+---
+ NEWS     |    5 +++++
+ src/ls.c |   10 ++--------
+ 2 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/NEWS b/NEWS
+index 1571c9c..0380975 100644
+--- a/NEWS
++++ b/NEWS
+@@ -32,6 +32,11 @@ GNU coreutils NEWS                                    -*- 
+outline -*-
+   last component (possibly via a dangling symlink) can be created,
+   since mkdir will succeed in that case.
+ 
++  ls -l now uses the traditional three field time style rather than
++  the two field numeric ISO style, in locales where a specific style
++  has not been specified. This currently affects all English language
++  locales for example. [old behavior was introduced in coreutils-6.0]
++
+ ** Improvements
+ 
+   rm: rewrite to use gnulib's fts
+diff --git a/src/ls.c b/src/ls.c
+index 1bb6873..4531b94 100644
+--- a/src/ls.c
++++ b/src/ls.c
+@@ -2014,7 +2014,6 @@ decode_switches (int argc, char **argv)
+             break;
+ 
+           case long_iso_time_style:
+-          case_long_iso_time_style:
+             long_time_format[0] = long_time_format[1] = &quot;%Y-%m-%d %H:%M&quot;;
+             break;
+ 
+@@ -2030,13 +2029,8 @@ decode_switches (int argc, char **argv)
+                    formats.  If not, fall back on long-iso format.  */
+                 int i;
+                 for (i = 0; i &lt; 2; i++)
+-                  {
+-                    char const *locale_format =
+-                      dcgettext (NULL, long_time_format[i], LC_TIME);
+-                    if (locale_format == long_time_format[i])
+-                      goto case_long_iso_time_style;
+-                    long_time_format[i] = locale_format;
+-                  }
++                  long_time_format[i] =
++                    dcgettext (NULL, long_time_format[i], LC_TIME);
+               }
+           }
+       /* Note we leave %5b etc. alone so user widths/flags are honored.  */
+-- 
+1.6.2.5
+
+</pre>
+<!--X-Body-of-Message-End-->
+<!--X-MsgBody-End-->
+<!--X-Follow-Ups-->
+<hr>
+<form method="post" action="/mp/yyz.py" enctype="multipart/form-data">
+<input type="hidden" name="a" value="P">
+<input type="hidden" name="b" value="Re: [PATCH]: ls: do not show long iso time format for en_* locales">
+<input type="hidden" name="d" value="4AC11E77.7000703@draigBrady.com">
+<input type="hidden" name="c" value="draigBrady.com">
+<center>reply via email to<br><input type="submit" value=" Pádraig Brady "></center>
+</form>
+<hr>
+<table width="100%">
+<tr><td align="left">[<a href="msg00405.html">Prev in Thread</a>]</td>
+<td align="center"><b>Current Thread</b></td>
+<td align="right">[<a href="msg00411.html">Next in Thread</a>]</td></tr></table>
+<ul>
+<li><b><a name="00388" href="msg00388.html">[PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Ondřej Vašík</i>, <tt>2009/09/25</tt>
+<ul>
+<li><b><a name="00390" href="msg00390.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Paul Eggert</i>, <tt>2009/09/25</tt>
+<ul>
+<li><b><a name="00391" href="msg00391.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Pádraig Brady</i>, <tt>2009/09/25</tt>
+<ul>
+<li><b><a name="00398" href="msg00398.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Jim Meyering</i>, <tt>2009/09/26</tt>
+<li><b><a name="00401" href="msg00401.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Ondřej Vašík</i>, <tt>2009/09/26</tt>
+</li>
+<li><b><a name="00402" href="msg00402.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Pádraig Brady</i>, <tt>2009/09/27</tt>
+<li><b><a name="00403" href="msg00403.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Jim Meyering</i>, <tt>2009/09/27</tt>
+<li><b><a name="00404" href="msg00404.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Pádraig Brady</i>, <tt>2009/09/27</tt>
+<li><b><a name="00405" href="msg00405.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Pádraig Brady</i>, <tt>2009/09/28</tt>
+<li><font color="#666666"><strong>Re: [PATCH]: ls: do not show long iso time format for en_* locales</strong>,
+<em>Pádraig Brady</em></font>&nbsp;<b>&lt;=</b>
+<li><b><a name="00411" href="msg00411.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Jim Meyering</i>, <tt>2009/09/28</tt>
+<li><b><a name="00430" href="msg00430.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Paul Eggert</i>, <tt>2009/09/29</tt>
+<li><b><a name="00433" href="msg00433.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Pádraig Brady</i>, <tt>2009/09/30</tt>
+</li>
+</li>
+</li>
+</li>
+</li>
+</li>
+</li>
+</li>
+</li>
+</ul>
+</li>
+<li><b><a name="00393" href="msg00393.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></b>, <i>Ondřej Vašík</i>, <tt>2009/09/26</tt>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+<!--X-Follow-Ups-End-->
+<!--X-References-->
+<!--X-References-End-->
+<!--X-BotPNI-->
+<ul>
+<li>Prev by Date:
+<strong><a href="msg00409.html">Problem with Firefox closing abruptly</a></strong>
+</li>
+<li>Next by Date:
+<strong><a href="msg00411.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></strong>
+</li>
+<li>Previous by thread:
+<strong><a href="msg00405.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></strong>
+</li>
+<li>Next by thread:
+<strong><a href="msg00411.html">Re: [PATCH]: ls: do not show long iso time format for en_* locales</a></strong>
+</li>
+<li>Index(es):
+<ul>
+<li><a href="index.html#00410"><strong>Date</strong></a></li>
+<li><a href="threads.html#00410"><strong>Thread</strong></a></li>
+</ul>
+</li>
+</ul>
+
+<!--X-BotPNI-End-->
+<!--X-User-Footer-->
+<!--X-User-Footer-End-->
+</body>
+</html>

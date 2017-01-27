@@ -1,0 +1,60 @@
+********************************************************************************
+HW4.txt
+********************************************************************************
+
+Checked out version 3.0 into a new branch called "quote"
+> git checkout v3.0 -b quote
+
+Patched from lab
+> patch -p1 < quote-3.0-patch.txt
+
+When I tried to patch the program, it says the file has already been patched.
+When I tried to ignore the error, it says the patching has failed.
+I instead created another directory in my home called gitroot2 and cloned
+another repository and after copying quote-3.0-patch.txt to it, applied the
+patch. This ended up solving my problem and all 6 files were patched.
+
+Then I went into src directory and using emacs, went into every modified file
+and changed the ChangeLog using the c-x 4 a command. I added a short description
+to each file.
+> emacs diff.c
+> c-x 4 a
+(Do this for the other 5 files)
+
+Commited changes to the new branch withc the ChangeLog entry as commit message
+> git commit -F ChangeLog
+
+Generated formatted-patch.txt file using git format-patch
+> git format-patch -1 --stdout > formatted-patch.txt
+
+I tested Jonathan Cheung's patch
+> git checkout v3.0 -b partner
+> git am < formatted-patch-partner.txt
+> ./bootstrap
+> ./configure
+> make
+> make check
+My partners patch worked successfully and his make check also was good.
+
+Next to check to see if my own version is working, I did the same thing.
+I checked out another version of diffutils and put it in the mypatch branch.
+I then applied my patch using the git am command
+> git checkout v3.0 -b mypatch
+> git am < formatted-patch.txt
+
+I built this version of Diffutils
+> ./bootstrap
+> ./configure
+> make
+> make check
+
+I then ran these commands to check if my comments were in the ChangeLog
+> make distdir
+> cd diffutils*
+> emacs ChangeLog
+
+In the ChangeLog file, I see my message that I left as well as my name and email
+
+
+At first I had trouble getting the GUI interface of gitk to work but I found
+that using the SSH Lnx icon on the remote desktop worked. 

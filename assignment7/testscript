@@ -1,0 +1,6 @@
+#!/bin/bash
+
+printf "a b c\n\n\n" |
+tr "a\040" "z\012" |
+sort |
+tr "z\012" "a\040"

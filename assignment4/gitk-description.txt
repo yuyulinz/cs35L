@@ -1,0 +1,24 @@
+Roles of subwindows
+********************************************************************************
+
+On the top right side of the GUI interface, the subwindow gives information
+about repository and uses dots and lines to represent the branch, with each
+dot being a commit. It also shows the different merges, where the HEAD is, the
+master branch, and the names of each commit or merge.
+
+On the right of this subwindow contains the information about the name of the
+commiter and their email.
+
+To the right of this, there is information about the time and date of the commit
+
+The SHA1 ID is located right below the top right subwindow.
+
+Below that contains information about the commiter, the parent, the child, and
+previous and preceding versions. It also displays a brief description of the
+commit.
+
+Below this window contains all of the specific information about the patch. It
+lists all of the hunks that were applied in diff format.
+
+To the right of this is the last subwindow that shows the files pertaining to
+the commit.

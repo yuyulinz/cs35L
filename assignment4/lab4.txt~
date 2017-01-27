@@ -1,0 +1,36 @@
+********************************************************************************
+LAB4
+********************************************************************************
+
+I first created a directory and then went into the new directory
+> mkdir gitroot
+> cd gitroot
+
+I then got a copy of the repository of Diffutils and went into the repository
+> git clone git://git.savannah.gnu.org/diffutils.git
+> cd diffutils
+
+Next I used git log and git tag to put the log and list of tags into txt files
+> git log > git-log.txt
+> git tag . git-tags.txt
+
+Next I went into the log of commits to search fot the commit that starts with
+"quote 'like this'" by using git log and /quote 'like this'
+> git log
+> /quote 'like this'
+
+The commit hashcode was very long so I copied it by using right click and then
+used git show to create a patch file
+> git show 62ca21c8c1a5aa3488589dcd191a4ef04ae9ed4f > quote-patch.txt
+
+To check out version 3.0 of diffutils, I used the git checkout
+> git checkout v3.0
+
+To patch version 3.0, I used the following command
+> patch -p1 < quote-patch.txt
+Because p1 stips the first prefix, some files were not found. I skipped over
+those by pressing  <enter>
+
+Used git status to see the overview of what happened
+> git status
+This showed a list of modified files and then a list of untracked files

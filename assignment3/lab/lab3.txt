@@ -1,0 +1,72 @@
+********************************************************************************
+LAB 3
+********************************************************************************
+
+SETUP
+-Downloaded coreutils-7.6.tar.gz by using wget
+-created coreutilsinstall directory in home directory
+-untarred and unzipped the file using tar -xzvf coreutils-7.6.tar.gz
+-configured into coreutilsintall directory by using
+ ./configure --prefix=/u/eng/ugrad/yulin/coreutilsinstall
+-ran make and make install
+-reproduced problem by navigating to ~/coreutilsinstall/bin/ and then running
+ ./ls -l
+ the dates were in YYYY-MM-DD format instead of tradittional unix date
+
+PATCH
+-A patch fizes problems in code, a diff file contains the changes and we use the
+ patch command with the diff file to add changes.
+-used wget to get the html for the patch
+-editted using vim the file to only have the patch
+-renamed the file to patch_file
+-used command patch -p1 < patch_file to apply the patch
+ -pnum command will strip the smallest prefix containing num leading slashes
+ from each file name found in the patch. Since we need to stip the first prefix
+ we must use -p1.
+-used the make command to build the fixed version
+
+ the make command will go into every directory to check if there are files
+ needed to be recompiled. most of the directories did not have files that needed
+ to be recompiled except for src and man. The output for src is as follows
+
+ CC    ls.o
+ CCLD  dir
+ CCLD  vdir
+ CCLD  ls
+
+ Here it recognizes that the src code for ls has been changed so it recompiles
+ it creating another object file and updates the other files that are dependent
+ on it.
+
+ GEN dir.1
+ GEN vdir.1
+ GEN ls.1
+
+ make also goes into lib, doc, po, tests, and gnulib-tests but there were no
+ changes to be made
+
+-after going into coreutils-7.6/src/ and calling ./ls -l, the modified ls now
+ works and no longer displays YYYY-MM-DD format.
+-the installed ls still does not output the right format.
+
+-Created a new file using touch newfile and tested both installed and modified
+ ls programs. The installed ls did not output the correct format while the new
+ ls had the correct format.
+
+-Created a new file using touch and set the time to be -t 201401210959.30
+ the timestamp should be 9:59.30 1/21/2014
+
+ again the modified ls had the correct format and the installed ls did not
+
+Q1. The "case_long_iso_time_style:" is not needed because the goto line was
+    removed. However, it did not need to be deleted since the switch statement
+    has a case above it that did not have a break and will fall through and
+    execute the code below anyways.
+
+Q2. This patch poses a problem if the English date format is not standard.
+    Users in another country will have difficulties wince the locale is set.
+    Applications that need to use the three numerical dates will also fail
+    since the the months are now replaced with words and the year is only
+    displayed if it is old enough.
+
+ 

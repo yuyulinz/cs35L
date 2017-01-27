@@ -1,0 +1,75 @@
+*****************
+Time Comparisons
+*****************
+
+Comparing using test, I compared sfrob and sfrobu with a file that is 10 inputs
+long and a file that is 1,000,000 inputs long.
+
+
+
+**********
+10 Inputs
+**********
+
+./sfrob
+real    0m0.002s
+user    0m0.000s
+sys     0m0.000s
+
+./sfrobu
+real    0m0.003s
+user    0m0.000s
+sys     0m0.001s
+
+./sfrobs
+real    0m0.005s
+user    0m0.001s
+sys     0m0.004s
+
+
+From this, there is not much we can see except that sfrobs might be slower
+than sfrob and sfrobu. But we later see this is not the case. There is not
+enough inputs to show that much of a difference so I used a comparison
+with more inputs.
+
+***************
+1000000 Inputs
+***************
+
+./sfrob
+real    0m5.172s
+user    0m1.217s
+sys     0m0.068s
+
+./sfrobu
+real    0m12.766s
+user    0m1.454s
+sys     0m11.299s
+
+./sfrobs
+real    0m4.889s
+user    0m1.045s
+sys     0m0.102s
+
+These results give a better idea of how fast each version is. It can
+be seen that sfrobu is the slowest and spends lots of time making
+sys calls. The performance of sfrob and sfrobs is very similar.
+
+*************************************
+Number of Comparisons vs Input Lines
+*************************************
+
+I compared the number of comparisons sfrobu did vs the number of input lines
+
+# of Input     Comparisons
+
+10             20
+100            523
+1000	       8320
+10000	       114996
+100000	       1468576
+1000000	       17795664
+
+These results show that the number of comparisons follow the O(nlogn) complexity
+of qsort. This is expected.
+

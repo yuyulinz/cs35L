@@ -1,0 +1,11 @@
+#! /bin/sh
+grep '<td>.*</td>' < $1 |
+    sed 's/<[^>]*>//g' |
+    tr -d '[:blank:]' |
+    sed '/^$/d' |
+    sed '1~2d' |
+    tr '[:upper:]' '[:lower:]' |
+    sed "s/\`/'/g" |
+    sed 's/,/\n/g' |
+    sed "/[^pk'mnwlhaeiou]/d" |
+    sort -u

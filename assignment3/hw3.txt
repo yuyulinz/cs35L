@@ -1,0 +1,29 @@
+********************************************************************************
+Q.3
+Running the program with an empty file will make it return errors. Because the
+function chooseline in the class randline is supposed to return a random line
+within self.lines, it cannot choose one in this case since there are no lines
+to choose from. There is a index error in the random.choice function. The error
+message:
+
+ return seq[int(self.random() * len(seq))] # raises IndexError if seq is empty
+ IndexError: list index out of range
+
+shows that the random.choice function is trying to select a random value but
+since seq is empty, there is an IndexError. Ultimately, the program tries
+to select a random line in the file but cannot since there are no lines.
+
+Q.4
+
+File "randline.py", line 65
+  except IOError as (errno, strerror):
+  	 	    ^
+
+SyntaxError: invalid syntax
+
+This problem has to do with the fact that python3 removes automatic tuple
+unpacking. In python 2, you are able to iterate through parameters in an
+exception by using the parenthesis and comma. Python3 removes this and now
+(errno, strerror) must either be replaced with err or srrno_strerror.
+
+

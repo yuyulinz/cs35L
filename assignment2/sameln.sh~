@@ -1,0 +1,88 @@
+
+#!/bin/bash
+
+#put all regular files into an array
+
+dir=$1
+DIRECTORY=`ls -a $dir`
+declare -a ARRAY
+let count=0
+for FILE in $DIRECTORY
+do
+    if [ ! -L "$dir/$FILE" ]
+    then
+	if [ -f "$dir/$FILE" ]
+	then
+	    ARRAY[$count]="$FILE"
+	    let count=count+1
+	fi
+    fi
+done
+
+#put elements of array into file, sort file, then put back into an array
+
+touch tmp
+for i in "${ARRAY[@]}"
+do
+    echo $i >> tmp
+done
+
+sort tmp -o tmp
+
+
+declare -a sortarr
+while read line
+do
+    sortarr=(${sortarr[@]} $line)
+done < tmp
+
+rm tmp
+
+
+
+#for every file, compare it with all other regular files, if same, then make second a hard link
+
+for (( i=0;i<${#sortarr[@]};i++))
+do
+    echo "main for"
+    dot=0
+    if [ $(echo ${sortarr[$i]} | head -c 1) = "." ]
+    then
+	let dot=1
+    fi
+
+    echo "dot is $dot"
+
+    j=${#sortarr[@]}
+    let j=j-1
+    
+    for (( k=$j;k!=i;k--))
+    do
+	echo "check for $k"
+	cmp -s "$dir/${sortarr[$i]}" "$dir/${sortarr[$k]}"
+	if [ $? -eq 0 ]
+	then
+	    echo "same"
+	    if [ $(echo ${sortarr[$k]} | head -c 1) = "." ]
+	    then
+		if [ $dot -eq 0 ]
+		then
+		    rm "$dir/${sortarr[$i]}"
+		    ln "$dir/${sortarr[$k]}" "$dir/${sortarr[$i]}"
+		    continue
+		fi
+	    fi
+       	    rm "$dir/${sortarr[$k]}"
+	    ln "$dir/${sortarr[$i]}" "$dir/${sortarr[$k]}"
+	else
+	    echo "not"
+	fi
+    done
+done
+
+#echo $dir
+
+
+
+#cmp -s "$dir/${sortarr[1]}" "$dir/${sortarr[$2]}"
+#echo $?
