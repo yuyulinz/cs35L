@@ -1,0 +1,117 @@
+********************************************************************************
+Lab 5
+********************************************************************************
+
+I downloaded the coreutils file with bug and unzipped it
+> tar -xvf coreutils-with-bug.tar.gz
+
+I went into the resulting folder
+> cd coreutils-with-bug.tar.gz
+
+I then tried to build it by configure and make
+> ./configure CL
+> make
+
+Configure succeeded but the make command did not. There was an error message
+about conflicting types for 'futimens'
+
+I downloaded the patch by using wget with the url found on the specs page
+> wget http://cs.ucla.edu/classes/winter16/cs35L/assign/coreutils.diff
+
+I patched it with the flas -p0 since we did not have to strip any prefixes
+> patch-p0 < coreutils.diff
+
+This patch renames the tee and futimens functions so that they are not in
+conflict with other functions that have the same name. This will allow the
+program to build properly. (for example futimens was renamed to
+coreutils_futimens and tee was renamed to coreutils_tee)
+
+I rebuilt the program and now make works
+
+To recreate the bug, I first created a temporary directory, I then followed the
+list of instructions on the specs page to recreate the bug.
+> tmp=$(mktemp -d)
+> cd $tmp
+> touch -d '1918-11-11 11:00 GMT' wwi-armistice
+> touch now
+> sleep 1
+> touch now1
+> TZ=UTCO ~/assignment5/coreutils-with-bug/src/ls -lt --full-time wwi-armistice
+now now1
+
+The problem is that even though armistice is the oldest file, the program lists
+it as the newest file.
+
+To examine this bug I first opened the source file ls.c in emacs
+> emacs ~/assignment5/coreutils-with-bug/src/ls.c
+
+At first, I was very confused on how to read the file, so I opened another
+window to run gdb and let it walk me through the debugging process.
+> gdb ~/assignment5/coreutils-with-bug/src/ls.c
+> (gdb) break main
+> (gdb) run -lt wwi-armistice now now1
+
+I then used n to go to next line, s to go to next line stepping into functions,
+info locals to see local variables, info args to print arguments, and the print
+command to see specific variable values.
+
+I found that the function responsable for sorting the files is called sort_files
+and that it calls the qsort function which will sort the table of files
+according to the function called compare_mtime which will call the function
+cmp_mtime. cmp_mtime then calls the function timespec_cmp to do the comparison.
+
+I created a break at cmp_mtime
+> break cmp_mtime
+
+I then ran the program and examined the variables everytime cmp_mtime is called
+and see what it returns.
+
+The first time cmp_mtime is called, it compares the 'now' and 'now1' file.
+I found this out by using print when gdb gets to cmp_mtime
+> print a->name   (now)
+> print b->name   (now1)
+
+Examining what the variable diff was after it called the timespec_cmp function
+showed that cmp_mtime returned 9. which means now1 is newer than now. This is
+correct.
+> print diff
+
+The second time cmp_mtime is called, it compares 'wwi-armistice' and 'now1'
+> print a->name (wwi-armistice)
+> print b->name (now1)
+
+The bug was found here, where after examining the variable diff after it called
+the timespec-cmp function, it showed that cmp_mtime returned -1226259198. This
+is incorrect because now1 is number newer than wwi-armistice and cmp_mtime
+should have return a positive number.
+
+The timespec_cmp function compares the tv_sec values for the two files and
+returns the difference. However, a variable check on the values of tv_sec for
+a and b shows that for armistice(b), its value is -1613826000 and for now1(a),
+its value is 1454882098. the difference a.tv_sec - b.tv_sec should be a very
+large number. But the variable diff is of type int and cannot hold this value
+without overflowing.
+> print a    (tv_sec = 1454882098)
+> print b    (tv_sec = -1613826000)
+> print diff (-1226259198 THIS SHOULD BE POSITIVE)
+
+To solve this issue, we must change the type for diff in the timespec_cmp
+function so that it can hold larger values. Then, change it so that it will
+return 1 for positive results, 0 for 0, and -1 for negative results.
+
+I made a copy of the lib/timespec.h file and made my changes in there using
+emacs. I then used c-x 4 a to make a changelog entry.
+
+I created a .diff patch by the following command
+> diff -u timespec.h newtimespec.h > lab5.diff
+
+I recompiled this with the fixed bug and it now works.
+
+I tried this on the SEASnet linux servers and I found that the same bug is
+apparent. However, in addition to listing it as the first entry, it also
+displays it as a date in the future, particularily 2054-12-17.
+
+The problem is that the files I created are created in 32bit. When ls reads the
+files I create, particularly wwi-armistice, the signed bit will be lost. Thus
+wwi-armistice will be read as if it was created in the future.
+

@@ -1,0 +1,77 @@
+********************************************************************************
+Lab 6
+********************************************************************************
+
+The goal of this lab is to set up a connection with another student's host and
+run programs that forward to your machine.
+
+First I restarted into Ubuntu.
+
+I made sure openssh-client and openssh-server were installed.
+This command shows which ssh I have installed
+> $ dpkg --get-selections | grep openssh
+These two commands are used to install the two open ssh programs
+> $ sudo apt-get install openssh-server
+> $ sudo apt-get install openssh-client
+
+Check IP address and reachability of a host
+> $ ifconfig
+> ping <ip_addr>
+
+****************************************
+Set up host
+****************************************
+
+Check IP address 
+> $ ifconfig
+> ping 
+
+Generate public and private keys
+> $ ssh-keygen
+
+Create an account for the client on the server
+> $ sudo useradd -d /user/username -m Username
+> $ sudo passwd Username
+
+Create ssh directory for new user
+> $ cd /home/username
+> $ sudo mkdir .ssh
+
+Change ownership and permission on .ssh directory
+> $ sudo chown -R username .ssh
+> $ sudo chmod 700 .ssh
+The last line will give read, write and execute permissions
+
+When my partner ssh'd into my host, the ip address matched and the connection
+was successful.
+
+****************************************
+Connect as client
+****************************************
+
+generate public and private keys
+> $ ssh-keygen
+We set location of keys to be /home/ubuntu/.ssh
+When prompted for pass phrase, left it blank
+
+Copy public key to server
+Partner at this point created a username and used ifconfig to check ip address
+> $ ssh-copy-id -i UserName@server_ip_addr
+
+Add private key to authentication agent
+> $ ssd-add
+
+SSH to server (either one will work. -X will enable X11 session forwarding
+> $ ssh UserName@server_ip_addr
+> $ ssh -X UserName@server_ip_addr
+
+running a command
+> $ xterm
+> $ firefox
+> $ gedit
+
+checked if addr to see if it matches host
+> $ ifconfig
+ip address matchec
+
+connected.

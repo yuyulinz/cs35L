@@ -1,0 +1,24 @@
+********************************************************************************
+HW 6
+********************************************************************************
+
+1. The data going through the network is encrypted so if the other teams had
+tapped into our connection, they would not be able to decrypt the messages
+and our connection is still secure. If they had tapped into our keystrokes,
+our data would still not have been compromised so long as we do not type any
+data. In this lab, we only typed in the public key, however, if we typed out
+data on our keyboards, such as passwords or passphrases, then our data would be
+compromised and this could potentially be an issue. If they had control of our
+usb, then they will have our private key which means they have ful control and
+access to everything we send to each other. The weakness in this setup is that
+you lost control of the usb in the first place.
+
+2. gpg --cerify does't actually verify that you personally created the tar file
+because it only verifys the integrity of the file. It doesn't keep track of who
+created it. An attacker can just use the same public key to intercept a file and
+fasdf
+
+
+
+
+

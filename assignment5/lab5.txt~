@@ -1,0 +1,46 @@
+********************************************************************************
+Lab 5
+********************************************************************************
+
+I downloaded the coreutils file with bug and unzipped it
+> tar -xvf coreutils-with-bug.tar.gz
+
+I went into the resulting folder
+> cd coreutils-with-bug.tar.gz
+
+I then tried to build it by configure and make
+> ./configure CL
+> make
+
+Configure succeeded but the make command did not. There was an error message
+about conflicting types for 'futimens'
+
+I downloaded the patch by using wget with the url found on the specs page
+> wget http://cs.ucla.edu/classes/winter16/cs35L/assign/coreutils.diff
+
+I patched it with the flas -p0 since we did not have to strip any prefixes
+> patch-p0 < coreutils.diff
+
+This patch renames the tee and futimens functions so that they are not in
+conflict with other functions that have the same name. This will allow the
+program to build properly. (for example futimens was renamed to
+coreutils_futimens and tee was renamed to coreutils_tee)
+
+I rebuilt the program and now make works
+
+To recreate the bug, I first created a temporary directory, I then followed the
+list of instructions on the specs page to recreate the bug.
+> mkdir temp
+> cd temp
+> touch -d '1918-11-11 11:00 GMT' wwi-armistice
+> touch now
+> sleep 1
+> touch now1
+> TZ=UTCO ls -lt --full-time wwi-armistice now now1
+
+The problem is that even though armistice is the oldest file, the program lists
+it as the newest file.
+
+To examine this bug I first opened the source file ls.c in emacs
+> emacs ls.c
+> 

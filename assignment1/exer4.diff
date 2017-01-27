@@ -1,0 +1,155 @@
+--- exer1.html	2016-01-07 11:35:59.307359000 -0800
++++ exer4.html	2016-01-07 17:30:11.924115000 -0800
+@@ -1,6 +1,7 @@
+ <!DOCTYPE html
+ 	PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ 	"http://www.w3.org/TR/html4/strict.dtd">
++
+ <html>
+ <head>
+ <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>
+@@ -14,9 +15,10 @@
+ <p><small>[<a href='../index.html'>35L home</a> &gt; <a href='../assign.html'>assignments</a>]</small></p>
+ 
+ <h2>Laboratory: Linux and Emacs scavenger hunt</h2>
+-
+ <!-- diff，在UNIX系統上的一個工具程式，它可以比較兩個檔案之間的不同。通常它被用來比較同一個檔案，在不同版本間的差異。它可以產生一個擴展名為.diff或.patch的檔案，這個檔案可以被另一個工具程式patch來使用。-->
+ 
++
++
+ <p>Instructions: Use the commands that you learned in class to find
+ answers to these questions. Don't use a search engine like Google, and
+ don't ask your neighbor. If you need a hint, ask the <abbr>TA</abbr>.
+@@ -27,7 +29,7 @@
+ files <samp>key1.txt</samp> and <samp>ans1.txt</samp> that you will
+ submit as part of the assignment.</p>
+ 
+-<ol>
++<Ol>
+ <li>
+ How can you get <samp>man</samp> to print all the commands that have a specific
+ word in their man page (or at least the description part of the
+@@ -90,9 +92,9 @@
+ </ol>
+ 
+ <h2>Homework: Learning to use Emacs</h2>
+-
+ <!-- DELETEME DELETEME DELETEME -->
+ 
++
+ <ul>
+  <li>Keith Waclena, <a
+   href='http://www2.lib.uchicago.edu/~keith//tcl-course/emacs-tutorial.html'>A
+@@ -124,7 +126,7 @@
+ 
+ <h3>Exercise 1.1: Moving around in Emacs</h3>
+ 
+-<ol>
++<Ol>
+ <li>Use Emacs to edit the file <samp>exer1.html</samp>.</li>
+ <li>Move the cursor to somewhere in the first line that contains the text "UTF-8".</li>
+ <li>Move the cursor to somewhere in the next line that contains the text "Instructions".</li>
+@@ -146,7 +148,7 @@
+ 
+ <h3>Exercise 1.2: Deleting text in Emacs</h3>
+ 
+-<ol>
++<Ol>
+ <li>Use Emacs to edit the file <samp>exer2.html</samp>. The idea is to
+ delete its HTML comments; the resulting page should display the same
+ text as the original.</li>
+@@ -174,7 +176,7 @@
+ 
+ <h3>Exercise 1.3: Inserting text in Emacs</h3>
+ 
+-<ol>
++<o>
+ <li>Use Emacs to edit the file <samp>exer3.html</samp>.</li>
+ 
+ <li>Change the first two instances of "Assignment 1" to "Assignment 37".</li>
+@@ -193,7 +195,7 @@
+ that you should know, like copy and paste, search and replace, and undo.
+ </p>
+ 
+-<ol>
++<Ol>
+ <li>Execute the command "<samp>cat exer2.html exer2.diff &gt;exer4.html</samp>"
+ to create a file <samp>exer4.html</samp> that contains a copy of <samp>exer2.html</samp> followed by a copy of <samp>exer2.diff</samp>.</li>
+ <li>Use Emacs to edit the file <samp>exer4.html</samp>.
+@@ -232,7 +234,7 @@
+ Do these tasks all within Emacs. Don't use a shell subcommand
+ if you can avoid it.</p>
+ 
+-<ol>
++<Ol>
+ <li>Create a new directory <samp>junk</samp> that's right under
+ your home directory.</li>
+ 
+@@ -270,7 +272,7 @@
+ 
+ <h3>Exercise 1.6: Running Elisp code</h3>
+ 
+-<ol>
++<Ol>
+ <li>Visit Emacs's <samp>*scratch*</samp> buffer.</li>
+ 
+ <li>In the buffer, compute a random integer by invoking
+@@ -297,11 +299,12 @@
+ </ol>
+ 
+ <h2>Submit</h2>
+-
+ <!-- You can learn more about HTML comments at
+ 	<http://en.wikipedia.org/wiki/HTML_comment#Comments>.
+ 	-->
+ 
++
++
+ <p>Submit the following files.</p>
+ 
+ <dl>
+@@ -352,3 +355,44 @@
+ 
+ </body>
+ </html>
++<!----- exer1.html	2016-01-07 11:35:59.307359000 -0800
+++++ exer2.html	2016-01-07 15:47:57.114326000 -0800
++@@ -1,6 +1,4 @@
++-<!DOCTYPE html
++-	PUBLIC "-//W3C//DTD HTML 4.01//EN"
++-	"http://www.w3.org/TR/html4/strict.dtd">
+++
++ <html>
++ <head>
++ <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>
++@@ -15,7 +13,7 @@
++ 
++ <h2>Laboratory: Linux and Emacs scavenger hunt</h2>
++ 
++-<!-- diff，在UNIX系統上的一個工具程式，它可以比較兩個檔案之間的不同。通常它被用來比較同一個檔案，在不同版本間的差異。它可以產生一個擴展名為.diff或.patch的檔案，這個檔案可以被另一個工具程式patch來使用。-->
+++
++ 
++ <p>Instructions: Use the commands that you learned in class to find
++ answers to these questions. Don't use a search engine like Google, and
++@@ -91,7 +89,7 @@
++ 
++ <h2>Homework: Learning to use Emacs</h2>
++ 
++-<!-- DELETEME DELETEME DELETEME -->
+++
++ 
++ <ul>
++  <li>Keith Waclena, <a
++@@ -298,9 +296,8 @@
++ 
++ <h2>Submit</h2>
++ 
++-<!-- You can learn more about HTML comments at
++-	<http://en.wikipedia.org/wiki/HTML_comment#Comments>.
++-	-->
+++
+++
++ 
++ <p>Submit the following files.</p>
++ 
++-->

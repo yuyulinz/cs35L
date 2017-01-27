@@ -1,0 +1,31 @@
+********************************************************************************
+Lab 6
+********************************************************************************
+
+The goal of this lab is to set up a connection with another student's host and
+run programs that forward to your machine.
+
+First I restarted into Ubuntu.
+
+I made sure openssh-client and openssh-server were installed.
+This command shows which ssh I have installed
+> $ dpkg --get-selections | grep openssh
+These two commands are used to install the two open ssh programs
+> $ sudo apt-get install openssh-server
+> $ sudo apt-get install openssh-client
+
+****************************************
+Set up host
+****************************************
+
+Generate public and private keys
+> $ ssh-keygen
+
+Create an account for the client on the server
+> $ sudo useradd -d /user/partner -m Partnet
+> $
+
+****************************************
+Connect as client
+****************************************
+

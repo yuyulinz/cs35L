@@ -1,0 +1,111 @@
+1. man -k 'searchword'        found in man page of man
+
+2. /usr/local/cs/bin/cp /usr/bin/cp   found by using the command whereis -b cp
+   /usr/local/cs/bin/wc /usr/bin/wc   found by using the command whereis -b wc
+
+3. X - a executable for the X server used to control graphical interface
+   w - shows who is logged on and what they are doing
+   [ - a shell program that acts like the command test which checks file types and compares values
+
+   To find these three executables, I used the command find /usr/bin -name '?'
+   I then checked each of the three resulting files using the command
+   ls -l /usr/bin/X for all three files to see if were executable.
+
+4. /usr/bin/emacs is a softlink to /etc/alternatives/emacs
+   /etx/alternatives/emacs is a softlink to /usr/bin/emacs-24.3
+
+   When calling /usr/bin/emacs, you are actually calling emacs-24.3
+
+   Used symbolic link command (ls -l /usr/bin/emacs) and (ls -l /etc/alternatives/emacs)
+
+5. g+s: g - group and refers to the permissions other users in the file's group have
+   	s - set user or group ID on execution
+	g+s - Adds SUID permission to group
+   o-x  o - others or users who are neither in the files group nor own the file
+   	x - execute
+	o-x - causes executable mode bits to be removed from all other users. Other users will not be able to execute the file
+
+   Used man chmod to find this information
+
+6. find -mtime -21
+
+   Used man find to find information about this. The negative before the 21 means show the files since the last 21 days. Using
+   + will mean show the files modified at least 22 days ago.
+
+7. find /usr -type d -mtime -21
+
+   /usr specifies where to search, -type d searches for directories, -mtime -21 searches for modified files within the last 3 weeks
+   At first I used / instead of /usr but this resulted in a loop. specifying /usr solves this problem
+
+   Information found in the man page for find
+
+8. There are 287 symbolic links in the same directory as find which is /usr/bin
+
+   I used find /usr/bin -type l | wc -l
+
+   -type l searches for only symbolic types
+   wc -l counds the newlines
+
+9. the oldest file is kbd
+
+   I first cd into /usr/lib
+   Then I used ls -lt to list all files by time
+
+   -l means use long listing format
+   -t means to sort by modification time
+
+   There were two files that were last modified in 2014, alsa and kbd
+   I used stat kbd and stat alsa to get more information
+
+   kbd was last modified in september 2014
+   alsa was last modified in december 2014
+
+   therefore, kbd is the oldest
+
+10. Locale gets its data from LANG, LC_*, and NLSPATH environment variables.
+
+    Found this information in the man pages of locale
+
+11. sort-lines
+    sort-paragraphs
+    sort-pages
+    sort-fields
+    sort-numeric-fields
+    sort-columns
+    diary-sort-entries
+    dired-sort-toggle-or-edit
+    rmail-sort-by-author
+    rmail-sort-by-correspondent
+    rmail-sort-by-date
+    rmail-sort-by-labels
+    rmail-sort-by-lines
+    rmail-sort-by-recipient
+    rmail-sort-by-subject
+    tabulated-list-sort
+    tabulated-list-col-sort
+    Buffer-menu-sort
+
+    Found these by going into emacs manual,then going into command index and then doing a search for the word sort
+
+12. C-M-a - Move backward to the beginning of a defun
+    C-M-b - Move backward over a balanced expression
+    C-M-c - Exit from the innermost recursive edit or minibuffer
+    C-M-d - Move down one level of parentheses
+    C-M-e - Move forward to next end of defun
+    C-M-f - Move forward over a balanced expression
+    C-M-h - Put mark at end of this defun, point at beginning. Put region around whole current or following defun
+
+    Found these in emacs manual particularly in the key index
+
+13. C-g is the way to get rid of a partially typed command, or a numeric argument that you don't want.
+    Furthermore, if you are in the middle of a command that is running, it stops the command in a safe way.
+
+    Found in the emacs manual particularly in the key index
+
+14. Yank Reinserts "paste" the last stretch of killed text. Reinsert the most recent kill, which is the stretch of     killed text most recently killed or yanked.
+
+    Found this in by going into emacs and then typing "C-h f yank" which pulls up the help window for this command
+
+15. Emacs dired lists more files than ls -l. It will list the root and subdirectories directories.
+
+    Found this by doing a visual comparison.
